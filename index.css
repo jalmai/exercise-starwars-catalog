@@ -17,11 +17,21 @@ main {
   justify-content: center;
 }
 section {
-  height: 50vh;
+  height: 70vh;
   border: 2px solid black;
   box-sizing: border-box;
   width: 90%;
   border-radius: 10px;
   background-color: rgba(0, 0, 0, 0.7);
   color: white;
+}
+.details {
+  display: grid;
+  grid-template-rows: 10% 45% 45%;
+}
+.char-detail {
+  background-color: rgba(0, 0, 0, 0.438);
+}
+.planet-detail {
+  background-color: rgba(8, 8, 49, 0.283);
 }
