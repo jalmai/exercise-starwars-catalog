@@ -1,26 +1,28 @@
 let chars = [];
 peopleBring();
-console.log(chars);
-chars.forEach((element) => {
-  console.log(element.getInfo());
-});
+
 function peopleBring() {
   const peopleReq = new XMLHttpRequest();
   peopleReq.open("get", "https://swapi.dev/api/people/", true);
   peopleReq.addEventListener("readystatechange", () => {
     if (peopleReq.readyState === 4) {
+      console.log("received from api");
       let people = JSON.parse(peopleReq.responseText);
       people.results.forEach((element) => {
         let char = new StarWarsCharacter(element);
         chars.push(char);
       });
+    } else if (peopleReq.status === 200) {
+      console.log("loading");
     } else {
       console.error("Error: ", peopleReq.status);
     }
+    chars.forEach((element) => {
+      console.log(element.getInfo());
+    });
   });
   peopleReq.send();
 }
-
 class StarWarsCharacter {
   constructor(data) {
     this.name = data.name || "Unknown";
@@ -60,5 +62,28 @@ class StarWarsCharacter {
         Vehicles: ${this.vehicles.join(", ")}
         URL: ${this.url}
         `;
+  }
+  getInfoAsList() {
+    const properties = [
+      `Name: ${this.name}`,
+      `Birth Year: ${this.birthYear}`,
+      `Created: ${this.created}`,
+      `Edited: ${this.edited}`,
+      `Eye Color: ${this.eyeColor}`,
+      `Gender: ${this.gender}`,
+      `Hair Color: ${this.hairColor}`,
+      `Height: ${this.height}`,
+      `Mass: ${this.mass}`,
+      `Skin Color: ${this.skinColor}`,
+      `Species: ${this.species.join(", ")}`,
+    ];
+
+    const ul = document.createElement("ul");
+    properties.forEach((property) => {
+      const li = document.createElement("li");
+      li.textContent = property;
+      ul.appendChild(li);
+    });
+    return ul;
   }
 }
