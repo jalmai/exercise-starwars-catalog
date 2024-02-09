@@ -1,27 +1,41 @@
 let chars = [];
-peopleBring();
+// peopleBring();
 
-function peopleBring() {
-  const peopleReq = new XMLHttpRequest();
-  peopleReq.open("get", "https://swapi.dev/api/people/", true);
-  peopleReq.addEventListener("readystatechange", () => {
-    if (peopleReq.readyState === 4) {
-      console.log("received from api");
-      let people = JSON.parse(peopleReq.responseText);
-      people.results.forEach((element) => {
-        let char = new StarWarsCharacter(element);
-        chars.push(char);
-      });
-    } else if (peopleReq.status === 200) {
-      console.log("loading");
-    } else {
-      console.error("Error: ", peopleReq.status);
-    }
-    chars.forEach((element) => {
-      console.log(element.getInfo());
+// function peopleBring() {
+//   const peopleReq = new XMLHttpRequest();
+//   peopleReq.open("get", "https://swapi.dev/api/people/", true);
+//   peopleReq.addEventListener("readystatechange", () => {
+//     if (peopleReq.readyState === 4) {
+//       console.log("received from api");
+//       let people = JSON.parse(peopleReq.responseText);
+//       people.results.forEach((element) => {
+//         let char = new StarWarsCharacter(element);
+//         chars.push(char);
+//       });
+//     } else if (peopleReq.status === 200) {
+//       console.log("loading");
+//     } else {
+//       console.error("Error: ", peopleReq.status);
+//     }
+//     chars.forEach((element) => {
+//       console.log(element.getInfo());
+//     });
+//   });
+//   peopleReq.send();
+// }
+
+makeRequest("GET", "https://swapi.dev/api/people/", function (error, data) {
+  charsToArray(error, data);
+});
+function charsToArray(error, data) {
+  if (error) {
+    console.error(error);
+  } else {
+    data.results.forEach((element) => {
+      let char = new StarWarsCharacter(element);
+      chars.push(char);
     });
-  });
-  peopleReq.send();
+  }
 }
 class StarWarsCharacter {
   constructor(data) {
@@ -86,4 +100,22 @@ class StarWarsCharacter {
     });
     return ul;
   }
+}
+function makeRequest(method, url, callback) {
+  const xhr = new XMLHttpRequest();
+  xhr.open(method, url);
+  xhr.onreadystatechange = function () {
+    if (xhr.readyState === XMLHttpRequest.DONE) {
+      if (xhr.status >= 200 && xhr.status < 300) {
+        const responseData = JSON.parse(xhr.responseText);
+        callback(null, responseData);
+      } else {
+        callback(new Error(`Request failed with status ${xhr.status}`), null);
+      }
+    }
+  };
+  xhr.onerror = function () {
+    callback(new Error("Request failed"), null);
+  };
+  xhr.send();
 }
