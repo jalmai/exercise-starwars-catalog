@@ -2,25 +2,36 @@ let chars = [];
 makeRequest("GET", "https://swapi.dev/api/people/", function (error, data) {
   getAllChars(error, data);
 });
-function getCharData() {}
 function getAllChars(error, data) {
   if (error) {
     console.error(error);
   } else {
     console.log(data.next);
-    if (data.next) {
-      makeRequest("GET", data.next, function (error, data) {
-        getAllChars(error, data);
-      });
-    } else {
-      console.log("gathered all character data");
-      console.log(chars);
-    }
+    // !Temporary commented out to avoid unecessary calls from api
+    // if (data.next) {
+    //   makeRequest("GET", data.next, function (error, data) {
+    //     getAllChars(error, data);
+    //   });
+    // } else {
+    //   console.log("gathered all character data");
+    //   console.log(chars);
+    // }
 
     data.results.forEach((element) => {
       let char = new StarWarsCharacter(element);
       chars.push(char);
     });
+    console.log(chars);
+    let htmlList = document.createElement("ul");
+    chars.forEach((char, i) => {
+      let li = document.createElement("li");
+      li.addEventListener("click", function () {
+        charDetails(i);
+      });
+      li.innerText = char.name;
+      htmlList.appendChild(li);
+    });
+    document.querySelector(".char-list").appendChild(htmlList);
   }
 }
 class StarWarsCharacter {
@@ -100,4 +111,10 @@ function makeRequest(method, url, callback) {
     callback(new Error("Request failed"), null);
   };
   xhr.send();
+}
+function charDetails(index) {
+  let info = chars[index].getInfoAsList();
+  let det = document.querySelector(".char-detail");
+  det.innerHTML = "";
+  det.appendChild(info);
 }
