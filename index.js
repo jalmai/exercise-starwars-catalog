@@ -1,36 +1,22 @@
 let chars = [];
-// peopleBring();
-
-// function peopleBring() {
-//   const peopleReq = new XMLHttpRequest();
-//   peopleReq.open("get", "https://swapi.dev/api/people/", true);
-//   peopleReq.addEventListener("readystatechange", () => {
-//     if (peopleReq.readyState === 4) {
-//       console.log("received from api");
-//       let people = JSON.parse(peopleReq.responseText);
-//       people.results.forEach((element) => {
-//         let char = new StarWarsCharacter(element);
-//         chars.push(char);
-//       });
-//     } else if (peopleReq.status === 200) {
-//       console.log("loading");
-//     } else {
-//       console.error("Error: ", peopleReq.status);
-//     }
-//     chars.forEach((element) => {
-//       console.log(element.getInfo());
-//     });
-//   });
-//   peopleReq.send();
-// }
-
 makeRequest("GET", "https://swapi.dev/api/people/", function (error, data) {
-  charsToArray(error, data);
+  getAllChars(error, data);
 });
-function charsToArray(error, data) {
+function getCharData() {}
+function getAllChars(error, data) {
   if (error) {
     console.error(error);
   } else {
+    console.log(data.next);
+    if (data.next) {
+      makeRequest("GET", data.next, function (error, data) {
+        getAllChars(error, data);
+      });
+    } else {
+      console.log("gathered all character data");
+      console.log(chars);
+    }
+
     data.results.forEach((element) => {
       let char = new StarWarsCharacter(element);
       chars.push(char);
@@ -41,8 +27,6 @@ class StarWarsCharacter {
   constructor(data) {
     this.name = data.name || "Unknown";
     this.birthYear = data.birth_year || "Unknown";
-    this.created = data.created || "Unknown";
-    this.edited = data.edited || "Unknown";
     this.eyeColor = data.eye_color || "Unknown";
     this.gender = data.gender || "Unknown";
     this.hairColor = data.hair_color || "Unknown";
@@ -81,8 +65,6 @@ class StarWarsCharacter {
     const properties = [
       `Name: ${this.name}`,
       `Birth Year: ${this.birthYear}`,
-      `Created: ${this.created}`,
-      `Edited: ${this.edited}`,
       `Eye Color: ${this.eyeColor}`,
       `Gender: ${this.gender}`,
       `Hair Color: ${this.hairColor}`,
