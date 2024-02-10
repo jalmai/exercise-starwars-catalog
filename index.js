@@ -1,6 +1,7 @@
 let chars = [];
 let charList = document.querySelector(".char-list");
-let homeWorlds = ["unknown"];
+let homeWorldsUrl = ["unknown"];
+let planets = [];
 class StarWarsCharacter {
   constructor(data) {
     this.name = data.name || "Unknown";
@@ -9,23 +10,18 @@ class StarWarsCharacter {
     this.gender = data.gender || "Unknown";
     this.hairColor = data.hair_color || "Unknown";
     this.height = data.height || "Unknown";
-    if (!homeWorlds.includes(data.homeworld)) {
-      let homeWorldReq = makeRequest(
-        "GET",
-        data.homeworld,
-        function (error, data) {
-          if (data) {
-            console.log(data);
-          } else {
-            console.error(error);
-          }
+    if (!homeWorldsUrl.includes(data.homeworld)) {
+      makeRequest("GET", data.homeworld, function (error, data) {
+        if (data) {
+          let plan = new Planet(data);
+          planets.push(plan);
+        } else {
+          console.error(error);
         }
-      );
-      console.log(homeWorldReq);
-      homeWorlds.push(data.homeworld);
+      });
+      homeWorldsUrl.push(data.homeworld);
     }
-    console.log(homeWorlds.indexOf(data.homeworld));
-    this.homeworld = homeWorlds.indexOf(data.homeworld) || "Unknown";
+    this.homeworld = homeWorldsUrl.indexOf(data.homeworld) || "Unknown";
     this.mass = data.mass || "Unknown";
     this.skinColor = data.skin_color || "Unknown";
     this.films = data.films || [];
@@ -37,7 +33,7 @@ class StarWarsCharacter {
 
   getInfo() {
     return `
-        Name: ${this.name}
+        Name: ${this.name} 
         Birth Year: ${this.birthYear}
         Created: ${this.created}
         Edited: ${this.edited}
@@ -65,7 +61,7 @@ class StarWarsCharacter {
       `Height: ${this.height}`,
       `Mass: ${this.mass}`,
       `Skin Color: ${this.skinColor}`,
-      `Homeworld: ${this.homeworld}`,
+      `Homeworld: ${planets[this.homeworld - 1].name}`,
       `Species: ${this.species.join(", ")}`,
     ];
 
@@ -78,6 +74,51 @@ class StarWarsCharacter {
     return ul;
   }
 }
+class Planet {
+  constructor(data) {
+    this.name = data.name || "Unknown";
+    this.rotationPeriod = data.rotation_period || "Unknown";
+    this.orbitalPeriod = data.orbital_period || "Unknown";
+    this.diameter = data.diameter || "Unknown";
+    this.climate = data.climate || "Unknown";
+    this.gravity = data.gravity || "Unknown";
+    this.terrain = data.terrain || "Unknown";
+    this.surfaceWater = data.surface_water || "Unknown";
+    this.population = data.population || "Unknown";
+    this.residents = data.residents || "Unknown";
+    this.films = data.films || "Unknown";
+    this.created = data.created || "Unknown";
+    this.edited = data.edited || "Unknown";
+    this.url = data.url || "Unknown";
+  }
+  getInfoAsList() {
+    const properties = [
+      `Name: ${this.name}`,
+      `Rotation Period: ${this.rotationPeriod}`,
+      `Orbital Period: ${this.orbitalPeriod}`,
+      `Diameter: ${this.diameter}`,
+      `Climate: ${this.climate}`,
+      `Gravity: ${this.gravity}`,
+      `Terrain: ${this.terrain}`,
+      `Surface Water: ${this.surfaceWater}`,
+      `Population: ${this.population}`,
+      `Residents: ${this.residents.join(", ")}`,
+      `Films: ${this.films.join(", ")}`,
+      `Created: ${this.created}`,
+      `Edited: ${this.edited}`,
+      `URL: ${this.url}`,
+    ];
+
+    const ul = document.createElement("ul");
+    properties.forEach((property) => {
+      const li = document.createElement("li");
+      li.textContent = property;
+      ul.appendChild(li);
+    });
+    return ul;
+  }
+}
+
 charList.classList.add("loader");
 makeRequest("GET", "https://swapi.dev/api/people/", function (error, data) {
   getAllChars(error, data);
@@ -143,7 +184,13 @@ function makeRequest(method, url, callback) {
 function charDetails(index) {
   // TODO: Get homeplanet info
   let info = chars[index].getInfoAsList();
-  let det = document.querySelector(".char-detail");
-  det.innerHTML = "";
-  det.appendChild(info);
+  let currPlanet = chars[index].homeworld;
+  console.log(currPlanet);
+  let planInfo = planets[currPlanet - 1].getInfoAsList();
+  let charDetails = document.querySelector(".char-detail");
+  charDetails.innerHTML = "";
+  charDetails.appendChild(info);
+  let planetDetails = document.querySelector(".planet-detail");
+  planetDetails.innerHTML = "";
+  planetDetails.appendChild(planInfo);
 }
