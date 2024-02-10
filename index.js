@@ -1,4 +1,6 @@
 let chars = [];
+let list = document.querySelector(".char-list");
+list.setAttribute("class", "loader");
 makeRequest("GET", "https://swapi.dev/api/people/", function (error, data) {
   getAllChars(error, data);
 });
@@ -31,7 +33,9 @@ function getAllChars(error, data) {
       li.innerText = char.name;
       htmlList.appendChild(li);
     });
-    document.querySelector(".char-list").appendChild(htmlList);
+    list.innerHTML = "";
+    list.removeAttribute("class", "loader");
+    list.appendChild(htmlList);
   }
 }
 class StarWarsCharacter {
