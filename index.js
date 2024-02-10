@@ -1,5 +1,6 @@
 let chars = [];
-let list = document.querySelector(".char-list");
+let charList = document.querySelector(".char-list");
+let homeWorlds = ["unknown"];
 class StarWarsCharacter {
   constructor(data) {
     this.name = data.name || "Unknown";
@@ -8,7 +9,23 @@ class StarWarsCharacter {
     this.gender = data.gender || "Unknown";
     this.hairColor = data.hair_color || "Unknown";
     this.height = data.height || "Unknown";
-    this.homeworld = data.homeworld || "Unknown";
+    if (!homeWorlds.includes(data.homeworld)) {
+      let homeWorldReq = makeRequest(
+        "GET",
+        data.homeworld,
+        function (error, data) {
+          if (data) {
+            console.log(data);
+          } else {
+            console.error(error);
+          }
+        }
+      );
+      console.log(homeWorldReq);
+      homeWorlds.push(data.homeworld);
+    }
+    console.log(homeWorlds.indexOf(data.homeworld));
+    this.homeworld = homeWorlds.indexOf(data.homeworld) || "Unknown";
     this.mass = data.mass || "Unknown";
     this.skinColor = data.skin_color || "Unknown";
     this.films = data.films || [];
@@ -48,6 +65,7 @@ class StarWarsCharacter {
       `Height: ${this.height}`,
       `Mass: ${this.mass}`,
       `Skin Color: ${this.skinColor}`,
+      `Homeworld: ${this.homeworld}`,
       `Species: ${this.species.join(", ")}`,
     ];
 
@@ -60,7 +78,7 @@ class StarWarsCharacter {
     return ul;
   }
 }
-list.classList.add("loader");
+charList.classList.add("loader");
 makeRequest("GET", "https://swapi.dev/api/people/", function (error, data) {
   getAllChars(error, data);
 });
@@ -88,7 +106,7 @@ function getAllChars(error, data) {
     chars.forEach((char, i) => {
       let li = document.createElement("li");
       li.addEventListener("click", function () {
-        let a = list.getElementsByTagName("li");
+        let a = charList.getElementsByTagName("li");
         Array.from(a).forEach((element) => {
           element.classList.remove("active");
         });
@@ -98,9 +116,9 @@ function getAllChars(error, data) {
       li.innerText = char.name;
       htmlList.appendChild(li);
     });
-    list.innerHTML = "";
-    list.classList.remove("loader");
-    list.appendChild(htmlList);
+    charList.innerHTML = "";
+    charList.classList.remove("loader");
+    charList.appendChild(htmlList);
   }
 }
 
