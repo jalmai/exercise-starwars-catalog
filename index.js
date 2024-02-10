@@ -1,6 +1,6 @@
 let chars = [];
 let list = document.querySelector(".char-list");
-list.setAttribute("class", "loader");
+list.classList.add("loader");
 makeRequest("GET", "https://swapi.dev/api/people/", function (error, data) {
   getAllChars(error, data);
 });
@@ -28,13 +28,14 @@ function getAllChars(error, data) {
     chars.forEach((char, i) => {
       let li = document.createElement("li");
       li.addEventListener("click", function () {
+        this.classList.add("active");
         charDetails(i);
       });
       li.innerText = char.name;
       htmlList.appendChild(li);
     });
     list.innerHTML = "";
-    list.removeAttribute("class", "loader");
+    list.classList.remove("loader");
     list.appendChild(htmlList);
   }
 }
