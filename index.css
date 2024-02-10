@@ -64,6 +64,12 @@ section {
 .planet-detail {
   background-color: rgba(8, 8, 49, 0.283);
 }
+.char-list .active {
+  background-color: gold;
+  width: 105%;
+  text-align: right;
+  color: black;
+}
 .loader {
   width: fit-content;
   font-size: 17px;

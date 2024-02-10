@@ -1,44 +1,5 @@
 let chars = [];
 let list = document.querySelector(".char-list");
-list.classList.add("loader");
-makeRequest("GET", "https://swapi.dev/api/people/", function (error, data) {
-  getAllChars(error, data);
-});
-function getAllChars(error, data) {
-  if (error) {
-    console.error(error);
-  } else {
-    console.log(data.next);
-    // !Temporary commented out to avoid unecessary calls from api
-    // if (data.next) {
-    //   makeRequest("GET", data.next, function (error, data) {
-    //     getAllChars(error, data);
-    //   });
-    // } else {
-    //   console.log("gathered all character data");
-    //   console.log(chars);
-    // }
-
-    data.results.forEach((element) => {
-      let char = new StarWarsCharacter(element);
-      chars.push(char);
-    });
-    console.log(chars);
-    let htmlList = document.createElement("ul");
-    chars.forEach((char, i) => {
-      let li = document.createElement("li");
-      li.addEventListener("click", function () {
-        this.classList.add("active");
-        charDetails(i);
-      });
-      li.innerText = char.name;
-      htmlList.appendChild(li);
-    });
-    list.innerHTML = "";
-    list.classList.remove("loader");
-    list.appendChild(htmlList);
-  }
-}
 class StarWarsCharacter {
   constructor(data) {
     this.name = data.name || "Unknown";
@@ -99,6 +60,47 @@ class StarWarsCharacter {
     return ul;
   }
 }
+list.classList.add("loader");
+makeRequest("GET", "https://swapi.dev/api/people/", function (error, data) {
+  getAllChars(error, data);
+});
+function getAllChars(error, data) {
+  if (error) {
+    console.error(error);
+  } else {
+    console.log(data.next);
+    // !Temporary commented out to avoid unecessary calls from api
+    // if (data.next) {
+    //   makeRequest("GET", data.next, function (error, data) {
+    //     getAllChars(error, data);
+    //   });
+    // } else {
+    //   console.log("gathered all character data");
+    //   console.log(chars);
+    // }
+
+    data.results.forEach((element) => {
+      let char = new StarWarsCharacter(element);
+      chars.push(char);
+    });
+    console.log(chars);
+    let htmlList = document.createElement("ul");
+    chars.forEach((char, i) => {
+      let li = document.createElement("li");
+      li.addEventListener("click", function () {
+        // TODO: Remove class active from all li elements
+        this.classList.add("active");
+        charDetails(i);
+      });
+      li.innerText = char.name;
+      htmlList.appendChild(li);
+    });
+    list.innerHTML = "";
+    list.classList.remove("loader");
+    list.appendChild(htmlList);
+  }
+}
+
 function makeRequest(method, url, callback) {
   const xhr = new XMLHttpRequest();
   xhr.open(method, url);
@@ -118,6 +120,7 @@ function makeRequest(method, url, callback) {
   xhr.send();
 }
 function charDetails(index) {
+  // TODO: Get homeplanet info
   let info = chars[index].getInfoAsList();
   let det = document.querySelector(".char-detail");
   det.innerHTML = "";
