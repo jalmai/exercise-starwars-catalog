@@ -94,19 +94,13 @@ class Planet {
   getInfoAsList() {
     const properties = [
       `Name: ${this.name}`,
-      `Rotation Period: ${this.rotationPeriod}`,
-      `Orbital Period: ${this.orbitalPeriod}`,
+      `Rotation Period: ${this.rotationPeriod} hours`,
+      `Orbital Period: ${this.orbitalPeriod} days`,
       `Diameter: ${this.diameter}`,
       `Climate: ${this.climate}`,
       `Gravity: ${this.gravity}`,
       `Terrain: ${this.terrain}`,
-      `Surface Water: ${this.surfaceWater}`,
       `Population: ${this.population}`,
-      `Residents: ${this.residents.join(", ")}`,
-      `Films: ${this.films.join(", ")}`,
-      `Created: ${this.created}`,
-      `Edited: ${this.edited}`,
-      `URL: ${this.url}`,
     ];
 
     const ul = document.createElement("ul");
