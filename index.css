@@ -50,6 +50,9 @@ section {
 .details {
   display: grid;
   grid-template-rows: 10% 45% 45%;
+  position: fixed;
+  left: 50%;
+  width: 40%;
 }
 .char-list li {
   list-style-type: none;

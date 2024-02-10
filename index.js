@@ -88,7 +88,10 @@ function getAllChars(error, data) {
     chars.forEach((char, i) => {
       let li = document.createElement("li");
       li.addEventListener("click", function () {
-        // TODO: Remove class active from all li elements
+        let a = list.getElementsByTagName("li");
+        Array.from(a).forEach((element) => {
+          element.classList.remove("active");
+        });
         this.classList.add("active");
         charDetails(i);
       });
