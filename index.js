@@ -143,12 +143,13 @@ function getAllChars(error, data) {
     chars.forEach((char, i) => {
       let li = document.createElement("li");
       li.addEventListener("click", function () {
-        let a = charList.getElementsByTagName("li");
-        Array.from(a).forEach((element) => {
-          element.classList.remove("active");
-        });
-        this.classList.add("active");
-        currentActive = i;
+        activeTab(i);
+        // let li = charList.getElementsByTagName("li");
+        // Array.from(li).forEach((element) => {
+        //   element.classList.remove("active");
+        // });
+        // li[i].classList.add("active");
+        // currentActive = i;
         charDetails(currentActive);
       });
       li.innerText = char.name;
@@ -169,8 +170,8 @@ function getAllChars(error, data) {
       } else {
         currentActive = 0;
       }
-
       charDetails(currentActive);
+      activeTab(currentActive);
     });
     charList.appendChild(button);
   }
@@ -205,4 +206,12 @@ function charDetails(index) {
   let planetDetails = document.querySelector(".planet-detail");
   planetDetails.innerHTML = "";
   planetDetails.appendChild(planInfo);
+}
+function activeTab(i) {
+  let li = charList.getElementsByTagName("li");
+  Array.from(li).forEach((element) => {
+    element.classList.remove("active");
+  });
+  li[i].classList.add("active");
+  currentActive = i;
 }
