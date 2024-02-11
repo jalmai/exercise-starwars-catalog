@@ -2,7 +2,7 @@ let chars = [];
 let charList = document.querySelector(".char-list");
 let homeWorldsUrl = ["unknown"];
 let planets = [];
-let currentActive;
+let currentActive = 0;
 class StarWarsCharacter {
   constructor(data) {
     this.name = data.name || "Unknown";
@@ -16,6 +16,7 @@ class StarWarsCharacter {
         if (data) {
           let plan = new Planet(data);
           planets.push(plan);
+          charDetails(currentActive);
         } else {
           console.error(error);
         }
@@ -119,6 +120,7 @@ charList.classList.add("loader");
 makeRequest("GET", "https://swapi.dev/api/people/", function (error, data) {
   getAllChars(error, data);
 });
+
 function getAllChars(error, data) {
   if (error) {
     console.error(error);
@@ -168,6 +170,7 @@ function getAllChars(error, data) {
       activeTab(currentActive);
     });
     charList.appendChild(button);
+    activeTab(currentActive);
   }
 }
 
@@ -190,9 +193,9 @@ function makeRequest(method, url, callback) {
   xhr.send();
 }
 function charDetails(index) {
+  console.log(chars[index]);
   let info = chars[index].getInfoAsList();
   let currPlanet = chars[index].homeworld;
-  console.log(currPlanet);
   let planInfo = planets[currPlanet - 1].getInfoAsList();
   let charDetails = document.querySelector(".char-detail");
   charDetails.innerHTML = "";
