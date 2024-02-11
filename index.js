@@ -144,12 +144,6 @@ function getAllChars(error, data) {
       let li = document.createElement("li");
       li.addEventListener("click", function () {
         activeTab(i);
-        // let li = charList.getElementsByTagName("li");
-        // Array.from(li).forEach((element) => {
-        //   element.classList.remove("active");
-        // });
-        // li[i].classList.add("active");
-        // currentActive = i;
         charDetails(currentActive);
       });
       li.innerText = char.name;
