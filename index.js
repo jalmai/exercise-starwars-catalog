@@ -2,6 +2,7 @@ let chars = [];
 let charList = document.querySelector(".char-list");
 let homeWorldsUrl = ["unknown"];
 let planets = [];
+let currentActive;
 class StarWarsCharacter {
   constructor(data) {
     this.name = data.name || "Unknown";
@@ -22,6 +23,7 @@ class StarWarsCharacter {
       homeWorldsUrl.push(data.homeworld);
     }
     this.homeworld = homeWorldsUrl.indexOf(data.homeworld) || "Unknown";
+    this.species = data.species || [];
     this.mass = data.mass || "Unknown";
     this.skinColor = data.skin_color || "Unknown";
     this.films = data.films || [];
@@ -146,7 +148,8 @@ function getAllChars(error, data) {
           element.classList.remove("active");
         });
         this.classList.add("active");
-        charDetails(i);
+        currentActive = i;
+        charDetails(currentActive);
       });
       li.innerText = char.name;
       htmlList.appendChild(li);
@@ -154,6 +157,22 @@ function getAllChars(error, data) {
     charList.innerHTML = "";
     charList.classList.remove("loader");
     charList.appendChild(htmlList);
+    let button = document.createElement("button");
+    button.innerHTML = "next character";
+    button.addEventListener("click", function () {
+      if (currentActive != null) {
+        if (currentActive === charList.getElementsByTagName("li").length - 1) {
+          currentActive = 0;
+        } else {
+          currentActive += 1;
+        }
+      } else {
+        currentActive = 0;
+      }
+
+      charDetails(currentActive);
+    });
+    charList.appendChild(button);
   }
 }
 
@@ -176,7 +195,6 @@ function makeRequest(method, url, callback) {
   xhr.send();
 }
 function charDetails(index) {
-  // TODO: Get homeplanet info
   let info = chars[index].getInfoAsList();
   let currPlanet = chars[index].homeworld;
   console.log(currPlanet);
