@@ -140,7 +140,6 @@ function getAllChars(error, data) {
       let char = new StarWarsCharacter(element);
       chars.push(char);
     });
-    console.log(chars);
     let htmlList = document.createElement("ul");
     chars.forEach((char, i) => {
       let li = document.createElement("li");
@@ -193,7 +192,6 @@ function makeRequest(method, url, callback) {
   xhr.send();
 }
 function charDetails(index) {
-  console.log(chars[index]);
   let info = chars[index].getInfoAsList();
   let currPlanet = chars[index].homeworld;
   let planInfo = planets[currPlanet - 1].getInfoAsList();
