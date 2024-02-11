@@ -1,3 +1,11 @@
+:root {
+  --font1: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  --font2: StarJedi, Courier, monospace;
+}
+@font-face {
+  font-family: StarJedi;
+  src: url("STJEDISE.TTF");
+}
 header {
   color: gold;
   position: fixed;
@@ -8,18 +16,15 @@ header {
   z-index: -100;
   background-color: rgba(255, 255, 255, 0.106);
 }
-@font-face {
-  font-family: StarJedi;
-  src: url("STJEDISE.TTF");
-}
+
 h1 {
-  font-family: StarJedi, Courier, monospace;
+  font-family: var(--font2);
 }
 body {
   margin-top: 20vh;
   background: radial-gradient(
       farthest-side at left,
-      #0000 35%,
+      #0000 5%,
       #aa47be,
       #039be6,
       #26c6dc,
@@ -60,6 +65,7 @@ section {
   margin: 0.2rem;
   padding: 0.2rem;
   font-size: 1.5rem;
+  font-family: var(--font1);
 }
 .char-detail {
   background-color: rgba(0, 0, 0, 0.438);
