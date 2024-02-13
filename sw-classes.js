@@ -21,11 +21,10 @@ class StarWarsCharacter {
       homeWorldsUrl.push(data.homeworld);
     }
     this.homeworld = homeWorldsUrl.indexOf(data.homeworld) || "Unknown";
-    this.species = data.species || [];
+    this.species = data.species[0] || "Human";
     this.mass = data.mass || "Unknown";
     this.skinColor = data.skin_color || "Unknown";
     this.films = data.films || [];
-    this.species = data.species || [];
     this.starships = data.starships || [];
     this.vehicles = data.vehicles || [];
     this.url = data.url || "Unknown";
@@ -45,13 +44,20 @@ class StarWarsCharacter {
         Mass: ${this.mass}
         Skin Color: ${this.skinColor}
         Films: ${this.films.join(", ")}
-        Species: ${this.species.join(", ")}
+        Species: ${this.species}
         Starships: ${this.starships.join(", ")}
         Vehicles: ${this.vehicles.join(", ")}
         URL: ${this.url}
         `;
   }
   getInfoAsList() {
+    let currspecies;
+    if (this.species === "Human") {
+      currspecies = "Human";
+    } else {
+      // TODO: Get name of species
+      currspecies = "Other";
+    }
     const properties = [
       `Name: ${this.name}`,
       `Birth Year: ${this.birthYear}`,
@@ -62,7 +68,7 @@ class StarWarsCharacter {
       `Mass: ${this.mass}`,
       `Skin Color: ${this.skinColor}`,
       `Homeworld: ${planets[this.homeworld - 1].name}`,
-      `Species: ${this.species.join(", ")}`,
+      `Species: ${currspecies}`,
     ];
 
     const ul = document.createElement("ul");
