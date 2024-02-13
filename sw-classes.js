@@ -51,13 +51,6 @@ class StarWarsCharacter {
         `;
   }
   getInfoAsList() {
-    let currspecies;
-    if (this.species === "Human") {
-      currspecies = "Human";
-    } else {
-      // TODO: Get name of species
-      currspecies = "Other";
-    }
     const properties = [
       `Name: ${this.name}`,
       `Birth Year: ${this.birthYear}`,
@@ -68,13 +61,13 @@ class StarWarsCharacter {
       `Mass: ${this.mass}`,
       `Skin Color: ${this.skinColor}`,
       `Homeworld: ${planets[this.homeworld - 1].name}`,
-      `Species: ${currspecies}`,
+      `Species: <span id=species></span>`,
     ];
 
     const ul = document.createElement("ul");
     properties.forEach((property) => {
       const li = document.createElement("li");
-      li.textContent = property;
+      li.innerHTML = property;
       ul.appendChild(li);
     });
     return ul;

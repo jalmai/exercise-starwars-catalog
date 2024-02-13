@@ -1,5 +1,6 @@
 let chars = [];
 let charList = document.querySelector(".char-list");
+let charInfo = document.querySelector(".char-detail");
 let homeWorldsUrl = ["unknown"];
 let planets = [];
 let currentActive = 0;
@@ -81,14 +82,28 @@ function makeRequest(method, url, callback) {
 }
 function charDetails(index) {
   let info = chars[index].getInfoAsList();
+
   let currPlanet = chars[index].homeworld;
   let planInfo = planets[currPlanet - 1].getInfoAsList();
-  let charDetails = document.querySelector(".char-detail");
-  charDetails.innerHTML = "";
-  charDetails.appendChild(info);
+  charInfo.innerHTML = "";
+  charInfo.appendChild(info);
   let planetDetails = document.querySelector(".planet-detail");
   planetDetails.innerHTML = "";
   planetDetails.appendChild(planInfo);
+  if (chars[index].species === "Human") {
+    charInfo.querySelector("#species").innerHTML = "Human";
+  } else {
+    charInfo.querySelector("#species").innerHTML = "loading";
+
+    makeRequest("GET", chars[index].species, function (error, data) {
+      if (data) {
+        let speciesName = data.name;
+        charInfo.querySelector("#species").innerHTML = speciesName;
+      } else {
+        console.log(error);
+      }
+    });
+  }
 }
 function activeTab(i) {
   let li = charList.getElementsByTagName("li");
