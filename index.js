@@ -82,7 +82,6 @@ function makeRequest(method, url, callback) {
 }
 function charDetails(index) {
   let info = chars[index].getInfoAsList();
-
   let currPlanet = chars[index].homeworld;
   let planInfo = planets[currPlanet - 1].getInfoAsList();
   charInfo.innerHTML = "";
@@ -91,8 +90,10 @@ function charDetails(index) {
   planetDetails.innerHTML = "";
   planetDetails.appendChild(planInfo);
   if (chars[index].species === "Human") {
+    // TODO: Move to variable
     charInfo.querySelector("#species").innerHTML = "Human";
   } else {
+    // TODO: Add proper loading animation
     charInfo.querySelector("#species").innerHTML = "loading";
 
     makeRequest("GET", chars[index].species, function (error, data) {
