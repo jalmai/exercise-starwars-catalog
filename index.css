@@ -13,7 +13,7 @@ header {
   left: 0px;
   width: 100%;
   height: 15vh;
-  z-index: -100;
+  z-index: 100;
   background-color: rgba(255, 255, 255, 0.106);
   background: linear-gradient(rgb(57, 29, 29) 20%, black) top/ 100% 75%
     no-repeat;
@@ -33,7 +33,7 @@ body {
 }
 main {
   display: grid;
-  grid-template-columns: 40% 40%;
+  grid-template-columns: 20% 40%;
   grid-template-rows: 50% 50%;
   justify-content: center;
 }
@@ -49,9 +49,8 @@ section {
 .details {
   display: grid;
   grid-template-rows: 10% 45% 45%;
-  position: fixed;
   left: 50%;
-  width: 40%;
+  width: 90%;
 }
 .char-list ul {
   margin: 0;
@@ -60,9 +59,9 @@ section {
 .char-list li {
   list-style-type: none;
   text-align: center;
-  margin: 0.2rem;
+  margin: 0.8rem;
   padding: 0.2rem;
-  font-size: 1.5rem;
+  font-size: 1rem;
   font-family: var(--font1);
 }
 .char-detail {
@@ -88,6 +87,7 @@ button {
   padding: 0px 15px;
   margin: 10px;
   border-radius: 25px 0px;
+  float: right;
 }
 .loader {
   width: fit-content;
