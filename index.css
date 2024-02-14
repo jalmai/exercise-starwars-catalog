@@ -7,7 +7,7 @@
   src: url("STJEDISE.TTF");
 }
 header {
-  color: gold;
+  color: black;
   position: fixed;
   top: 0px;
   left: 0px;
@@ -15,26 +15,19 @@ header {
   height: 15vh;
   z-index: -100;
   background-color: rgba(255, 255, 255, 0.106);
+  background: linear-gradient(rgb(57, 29, 29) 20%, black) top/ 100% 75%
+    no-repeat;
+  text-align: center;
 }
 
 h1 {
   font-family: var(--font2);
+  text-shadow: 1px 1px 8px gold;
+  font-size: 3em;
+  margin-top: 1%;
 }
 body {
   margin-top: 20vh;
-  background: radial-gradient(
-      farthest-side at left,
-      #0000 5%,
-      #aa47be,
-      #039be6,
-      #26c6dc,
-      #459e44,
-      #f9ec44,
-      #f68524,
-      #fa3536,
-      #0000
-    )
-    bottom/100% 25% no-repeat;
   background-color: black;
   background-attachment: fixed;
 }
@@ -60,6 +53,10 @@ section {
   left: 50%;
   width: 40%;
 }
+.char-list ul {
+  margin: 0;
+  padding: 0;
+}
 .char-list li {
   list-style-type: none;
   text-align: center;
@@ -77,8 +74,20 @@ section {
 .char-list .active {
   background-color: gold;
   width: 105%;
-  text-align: right;
+  text-align: center;
   color: black;
+  border-radius: 20px;
+  box-shadow: rgba(202, 202, 202, 0.12) 0px -12px 30px,
+    rgba(211, 211, 211, 0.12) 0px 4px 6px,
+    rgba(224, 224, 224, 0.17) 0px 12px 13px,
+    rgba(218, 218, 218, 0.09) 0px -3px 5px;
+}
+button {
+  background-color: gold;
+  font-family: var(--font2);
+  padding: 0px 15px;
+  margin: 10px;
+  border-radius: 25px 0px;
 }
 .loader {
   width: fit-content;
